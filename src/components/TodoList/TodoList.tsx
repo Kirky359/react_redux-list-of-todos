@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../app/hooks';
-import { TodoItem } from '../Todo/TodoItem';
+import { TodoItem } from '../TodoItem/TodoItem';
 
 export const TodoList: React.FC = () => {
   const { items: allTodos, error } = useAppSelector(state => state.todos);
@@ -22,11 +22,7 @@ export const TodoList: React.FC = () => {
 
   return (
     <>
-      {error && (
-        <p className="notification is-warning">
-          There are no todos matching current filter criteria
-        </p>
-      )}
+      {error && <p className="notification is-warning">Data loading failure</p>}
 
       <table className="table is-narrow is-fullwidth">
         <thead>

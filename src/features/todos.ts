@@ -31,9 +31,32 @@ export const todosSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+
+    add: (state, action: PayloadAction<Todo>) => {
+      state.items.push(action.payload);
+    },
+
+    remove: (state, action: PayloadAction<number>) => {
+      state.items = state.items.filter(todo => todo.id !== action.payload);
+    },
+
+    toggle: (state, action: PayloadAction<number>) => {
+      const todoToToggle = state.items.find(todo => todo.id === action.payload);
+
+      if (todoToToggle) {
+        todoToToggle.completed = !todoToToggle.completed;
+      }
+    },
   },
 });
 
-export const { setLoading, set: setTodos, setError } = todosSlice.actions;
+export const {
+  setLoading,
+  set: setTodos,
+  setError,
+  add: addTodo,
+  remove: removeTodo,
+  toggle: toggleTodo,
+} = todosSlice.actions;
 
 export default todosSlice.reducer;
