@@ -6,9 +6,10 @@ import { useDispatch } from 'react-redux';
 import { getTodos } from './api';
 import { setError, setLoading, setTodos } from './features/todos';
 import { useAppSelector } from './app/hooks';
+import { Todo } from './types/Todo';
 
 export const App = () => {
-  const { isLoading } = useAppSelector(state => state.todos);
+  const { items: allTodos, isLoading } = useAppSelector(state => state.todos);
 
   const dispatch = useDispatch();
 
@@ -20,12 +21,20 @@ export const App = () => {
       .catch(() => dispatch(setError('failed to load data')));
   }, [dispatch]);
 
+  const amountOfTodos = allTodos.reduce((acc: number, curr: Todo) => {
+    if (!curr.completed) {
+      return acc + 1;
+    }
+
+    return acc;
+  }, 0);
+
   return (
     <>
       <div className="section">
         <div className="container">
           <div className="box">
-            <h1 className="title">Todos:</h1>
+            <h1 className="title">Todos: {amountOfTodos}</h1>
 
             <div className="block">
               <TodoFilter />
